@@ -2,6 +2,7 @@ using Itech_Attendance.Core.Models;
 using Itech_Attendance.Core.Repositories;
 using Itech_Attendance.Models;
 using LiteDB;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ILiteDatabase>(provider => new LiteDatabase("C:\\Database\\Itech.db"));
 builder.Services.AddSingleton<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddSingleton<ITeacherRepository, TeacherRepository>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(config =>
+    {
+        config.LoginPath= "/Home/Login";
+    });
 
 var app = builder.Build();
 
@@ -56,8 +63,8 @@ var attRepo = app.Services.GetService<IAttendanceRepository>();
 //            Name= "Andre",
 //        }
 //    },
-//    Date = new DateOnly(2023, 9, 27),
-//    QrCode = "hello"
+//    Date = new DateOnly(2023, 9, 26),
+//    QrCode = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t"
 //});
 
 //teacherRepo.Create(new Itech_Attendance.Core.Models.Teacher()
@@ -72,6 +79,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

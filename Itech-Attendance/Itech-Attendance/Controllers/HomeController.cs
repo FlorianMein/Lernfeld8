@@ -1,11 +1,15 @@
 ﻿using Itech_Attendance.Core.Models;
 using Itech_Attendance.Core.Repositories;
 using Itech_Attendance.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Security.Claims;
 
 namespace Itech_Attendance.Controllers
 {
@@ -22,14 +26,42 @@ namespace Itech_Attendance.Controllers
             _attendanceRepository = attendanceRepository;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-
-            return View(new SchoolDay()
+            if (HttpContext.User.Claims.Any()) // eingeloggt
             {
-                Date = DateOnly.FromDateTime(DateTime.Now),
-                QrCode = GenerateQrCodeByString("https://youtube.com")
-            }) ;
+                return View(new SchoolDay()
+                {
+                    QrCode = GenerateQrCodeByString("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
+                    Date = new DateOnly(2023, 9, 27)
+                });
+            }
+            else // nicht eingeloggt oder Single-Sign-On Versuch
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+		[HttpPost]
+		public async Task<IActionResult> Login(string username, string password)
+        {
+            List<Teacher> teachers = _teacherRepository.FindAll();
+
+            if (teachers.Any(x => x.UserName == username && x.Password == password))
+            {
+                IList<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim("AdminID", $"{username}"));
+                ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                ViewBag.isLogged = true;
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Login");
         }
 
         public IActionResult GenerateNewQR()
@@ -74,7 +106,8 @@ namespace Itech_Attendance.Controllers
             return View();
         }
 
-        [HttpGet]
+		[Authorize]
+		[HttpGet]
         public IActionResult Table()
         {
             return View(_attendanceRepository.FindAll());
@@ -87,12 +120,6 @@ namespace Itech_Attendance.Controllers
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
             }) ;
-        }
-
-        [HttpPost]
-        public IActionResult LoginPost()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

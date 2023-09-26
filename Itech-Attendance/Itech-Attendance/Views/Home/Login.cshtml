@@ -3,12 +3,16 @@
 }
 
 <div class="box">
-	<form>
-		<span id="main" class="text-center">Anmeldung @Model.Date</span>
+	<form method="post">
+		<span id="main" class="text-center">Login</span>
 		<div class="input-container">
-			<input type="text" required=""/>
-			<label>Name</label>
+			<input type="text" name="username" required="" />
+			<label>Benutzername</label>
 		</div>
-		<button type="button" class="anmeldung-btn">Anmelden</button>
-	</form>	
+		<div class="input-container">
+			<input type="password" name="password" required="" />
+			<label>Password</label>
+		</div>
+		<button type="submit" class="anmeldung-btn">Anmelden</button>
+	</form>
 </div>
