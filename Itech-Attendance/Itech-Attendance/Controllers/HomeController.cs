@@ -73,7 +73,10 @@ namespace Itech_Attendance.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return View(new SchoolDay()
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now),
+            }) ;
         }
 
         [HttpPost]
