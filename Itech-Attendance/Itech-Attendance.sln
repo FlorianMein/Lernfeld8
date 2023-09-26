@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itech-Attendance", "Itech-Attendance\Itech-Attendance.csproj", "{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itech-Attendance.Core", "Itech-Attendance.Core\Itech-Attendance.Core.csproj", "{0160E479-50A4-4184-8A8D-3E5DCA994842}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9369C9A2-11D9-4E8E-9402-B81F23002254}
+	EndGlobalSection
+EndGlobal
