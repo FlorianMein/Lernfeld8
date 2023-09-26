@@ -1,4 +1,5 @@
-﻿using Itech_Attendance.Core.Repositories;
+﻿using Itech_Attendance.Core.Models;
+using Itech_Attendance.Core.Repositories;
 using Itech_Attendance.Models;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
@@ -11,16 +12,19 @@ namespace Itech_Attendance.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private AttendanceRepository _attendanceRepository;
-        private TeacherRepository _teacherRepository;
+        private readonly IAttendanceRepository _attendanceRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITeacherRepository teacherRepository, IAttendanceRepository attendanceRepository)
         {
             _logger = logger;
+            _teacherRepository = teacherRepository;
+            _attendanceRepository = attendanceRepository;
         }
 
         public IActionResult Index()
         {
+
             return View(new SchoolDay()
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
@@ -63,11 +67,17 @@ namespace Itech_Attendance.Controllers
                 throw new Exception("object not found");
             }
 
-            schoolDay.AttendingStudents.Add(new Core.Models.Student { Name = name });
+            schoolDay.AttendingStudents.Add(new Student { Name = name });
 
             _attendanceRepository.Update(schoolDay);
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Table()
+        {
+            return View(_attendanceRepository.FindAll());
         }
 
         [HttpGet]

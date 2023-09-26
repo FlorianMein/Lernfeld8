@@ -1,0 +1,19 @@
+﻿@using Itech_Attendance.Core.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<SchoolDay>
+
+@{
+    foreach(SchoolDay schoolDay in Model)
+    {
+        <h2>@schoolDay.Date</h2>
+        foreach(Student student in schoolDay.AttendingStudents)
+        {
+            <p>@student.Name</p>
+        }
+    }
+}

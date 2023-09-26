@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Itech_Attendance.Core.Repositories
 {
-    public class TeacherRepository : IRepository<Teacher>
+    public class TeacherRepository : ITeacherRepository
     {
         private ILiteDatabase _liteDB;
 

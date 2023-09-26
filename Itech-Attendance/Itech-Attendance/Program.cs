@@ -1,4 +1,6 @@
+using Itech_Attendance.Core.Models;
 using Itech_Attendance.Core.Repositories;
+using Itech_Attendance.Models;
 using LiteDB;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ILiteDatabase>(provider => new LiteDatabase("C:\\Database\\Itech.db"));
-builder.Services.AddSingleton<AttendanceRepository>();
-builder.Services.AddSingleton<TeacherRepository>();
+builder.Services.AddSingleton<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddSingleton<ITeacherRepository, TeacherRepository>();
 
 var app = builder.Build();
 
@@ -21,7 +23,43 @@ if (!app.Environment.IsDevelopment())
 
 
 var x = Guid.NewGuid();
-var teacherRepo = app.Services.GetService<TeacherRepository>();
+var teacherRepo = app.Services.GetService<ITeacherRepository>();
+var attRepo = app.Services.GetService<IAttendanceRepository>();
+
+//attRepo.Create(new SchoolDay()
+//{
+//    AttendingStudents = new List<Student>()
+//    {
+//        new Student()
+//        {
+//            Name= "Selim",
+//        },
+//        new Student()
+//        {
+//            Name= "Florian",
+//        }
+//    },
+//    Date = new DateOnly(2023, 9, 26),
+//    QrCode = "hello"
+//});
+
+//attRepo.Create(new SchoolDay()
+//{
+//    AttendingStudents = new List<Student>()
+//    {
+//        new Student()
+//        {
+//            Name= "Gabriel",
+//        },
+//        new Student()
+//        {
+//            Name= "Andre",
+//        }
+//    },
+//    Date = new DateOnly(2023, 9, 27),
+//    QrCode = "hello"
+//});
+
 //teacherRepo.Create(new Itech_Attendance.Core.Models.Teacher()
 //{
 //    FirstName = "Selim",
