@@ -139,3 +139,18 @@ body{
 #main{
     font-family: Verdana;
 }
+.nav-item a {
+    /* Add your other styles here */
+    font-size: 16px; /* Initial font size */
+    transition: font-size 0.3s ease; /* Specify the property to animate and the timing function */
+}
+
+.nav-item a:hover {
+    font-size: 24px; /* New font size on hover */
+}
+
+.navbar {
+    height: 5vh;
+    position: fixed;
+    width: 100%;
+}
