@@ -46,7 +46,7 @@ var attRepo = app.Services.GetService<IAttendanceRepository>();
 //            Name= "Florian",
 //        }
 //    },
-//    Date = new DateOnly(2023, 9, 26),
+//    Date = new DateOnly(2023, 9, 27),
 //    QrCode = "hello"
 //});
 

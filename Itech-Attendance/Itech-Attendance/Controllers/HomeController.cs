@@ -31,11 +31,19 @@ namespace Itech_Attendance.Controllers
         {
             if (HttpContext.User.Claims.Any()) // eingeloggt
             {
-                return View(new SchoolDay()
+                SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
+
+                if(schoolDay == null)
                 {
-                    QrCode = GenerateQrCodeByString("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                    Date = new DateOnly(2023, 9, 27)
-                });
+                    schoolDay = new SchoolDay()
+                    {
+                        QrCode = GenerateQrCodeByString("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
+                        Date = new DateOnly(2023, 9, 27),
+                        AttendingStudents = new List<Student>()
+                    };
+                }
+
+                return View(schoolDay);
             }
             else // nicht eingeloggt oder Single-Sign-On Versuch
             {
@@ -78,7 +86,7 @@ namespace Itech_Attendance.Controllers
 
             schoolDay.QrCode = GenerateQrCodeByString($"https://localhost:7219/{newId}");
             _attendanceRepository.Update(schoolDay);
-            return Ok();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
