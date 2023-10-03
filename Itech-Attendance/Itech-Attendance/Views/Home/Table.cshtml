@@ -8,12 +8,53 @@
 @model List<SchoolDay>
 
 @{
-    foreach(SchoolDay schoolDay in Model)
-    {
-        <h2>@schoolDay.Date</h2>
-        foreach(Student student in schoolDay.AttendingStudents)
-        {
-            <p>@student.Name</p>
-        }
+    <style>
+    table {
+        width: 60%;
+        height: 60%;
+        border-collapse: collapse;
     }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        color: black;
+    }
+</style>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Attending Students</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (SchoolDay schoolDay in Model)
+        {
+            <tr>
+                <td>@schoolDay.Date</td>
+                <td>
+                    <ul>
+                        @foreach (Student student in schoolDay.AttendingStudents)
+                        {
+                            <li>@student.Name</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
 }
