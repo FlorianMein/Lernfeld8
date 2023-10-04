@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itech-Attendance", "Itech-Attendance\Itech-Attendance.csproj", "{AC31FD0D-F1E8-4EDB-8AC1-04D353B375EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itech-Attendance.Core", "Itech-Attendance.Core\Itech-Attendance.Core.csproj", "{0160E479-50A4-4184-8A8D-3E5DCA994842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itech-Attendance.Core", "Itech-Attendance.Core\Itech-Attendance.Core.csproj", "{0160E479-50A4-4184-8A8D-3E5DCA994842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itech-Attendance.Tests", "Itech-Attendance.Tests\Itech-Attendance.Tests.csproj", "{6BF48EB0-1FE7-436C-BBCA-731809979B99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0160E479-50A4-4184-8A8D-3E5DCA994842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BF48EB0-1FE7-436C-BBCA-731809979B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BF48EB0-1FE7-436C-BBCA-731809979B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BF48EB0-1FE7-436C-BBCA-731809979B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BF48EB0-1FE7-436C-BBCA-731809979B99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
