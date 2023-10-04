@@ -24,6 +24,8 @@ namespace Itech_Attendance.Controllers
             _logger = logger;
             _teacherRepository = teacherRepository;
             _attendanceRepository = attendanceRepository;
+
+            ViewBag.User = true;
         }
 
         [Authorize]
@@ -33,14 +35,16 @@ namespace Itech_Attendance.Controllers
             {
                 SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
 
-                if(schoolDay == null)
+                if (schoolDay == null)
                 {
                     schoolDay = new SchoolDay()
                     {
-                        QrCode = GenerateQrCodeByString("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
-                        Date = new DateOnly(2023, 9, 27),
+                        QrCode = String.Empty,
+                        Date = DateOnly.FromDateTime(DateTime.Now),
                         AttendingStudents = new List<Student>()
                     };
+
+                    _attendanceRepository.Create(schoolDay);
                 }
 
                 return View(schoolDay);
@@ -51,8 +55,8 @@ namespace Itech_Attendance.Controllers
             }
         }
 
-		[HttpPost]
-		public async Task<IActionResult> Login(string username, string password)
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
         {
             List<Teacher> teachers = _teacherRepository.FindAll();
 
@@ -72,36 +76,50 @@ namespace Itech_Attendance.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult GenerateNewQR()
-        {
-            SchoolDay? schoolDay = 
-                _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
-
-            if(schoolDay == null)
-            {
-                throw new Exception("couldnt find object in repo");
-            }
-
-            long newId = DateTime.Now.Ticks;
-
-            schoolDay.QrCode = GenerateQrCodeByString($"https://localhost:7219/{newId}");
-            _attendanceRepository.Update(schoolDay);
-            return RedirectToAction("Index");
-        }
-
         [HttpGet]
-        [Route("/{id}")]
-        public IActionResult Attendance()
+        public IActionResult Registration()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("/{id}")]
+        public IActionResult Registration(string name)
+        {
+            return View();
+        }
+
+        public IActionResult GenerateNewQR()
+        {
+            SchoolDay? schoolDay =
+                _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
+
+            if (schoolDay == null)
+            {
+                throw new Exception("couldnt find object in repo");
+            }
+
+            long newId = DateTime.Now.Ticks;
+            schoolDay.QrCode = GenerateQrCodeByString($"https://localhost:7219/{newId}");
+            schoolDay.QrCodeId = newId;
+            _attendanceRepository.Update(schoolDay);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Attendance(long id)
+        {
+            SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.QrCodeId == id);
+
+            return View(schoolDay);
+        }
+
+        [HttpPost]
+        [Route("{id}")]
         public IActionResult AttendancePost(long id, string name)
         {
-            SchoolDay schoolDay = _attendanceRepository.FindById(id);
-            
+            SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.QrCodeId == id);
+
             if (schoolDay == null)
             {
                 throw new Exception("object not found");
@@ -111,11 +129,17 @@ namespace Itech_Attendance.Controllers
 
             _attendanceRepository.Update(schoolDay);
 
+            return RedirectToAction("AttendanceSuccessful");
+        }
+
+        [HttpGet]
+        public IActionResult AttendanceSuccessful()
+        {
             return View();
         }
 
-		[Authorize]
-		[HttpGet]
+        [Authorize]
+        [HttpGet]
         public IActionResult Table()
         {
             return View(_attendanceRepository.FindAll());
@@ -127,7 +151,7 @@ namespace Itech_Attendance.Controllers
             return View(new SchoolDay()
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
-            }) ;
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -153,6 +177,18 @@ namespace Itech_Attendance.Controllers
             {
                 bitmap.Save(ms, ImageFormat.Png);
                 return ms.ToArray();
+            }
+        }
+
+        protected void SetLoginViewbag()
+        {
+            if (HttpContext.User.Claims.Any()) // eingeloggt
+            {
+                ViewBag.IsLoggedIn = true;
+            }
+            else
+            {
+                ViewBag.IsLoggedIn = false;
             }
         }
     }

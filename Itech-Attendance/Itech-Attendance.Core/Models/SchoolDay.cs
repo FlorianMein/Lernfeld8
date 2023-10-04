@@ -9,6 +9,7 @@ namespace Itech_Attendance.Models
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
         public string QrCode { get; set; }
+        public long QrCodeId { get; set; }
         public List<Student> AttendingStudents { get; set; } = new List<Student>();
     }
 }
