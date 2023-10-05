@@ -11,7 +11,7 @@ namespace Itech_Attendance.Tests
         public void Test1()
         {
             // Assert.Pass();
-            Assert.AreEqual("Ja","Nein")
+            Assert.AreEqual("Ja","Nein");
         }
     }
 }
