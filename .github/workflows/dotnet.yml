@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Itech-Attendance/Itech-Attendance.Tests
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Itech-Attendance/Itech-Attendance.Tests --no-restore
     - name: Test
       run: dotnet test Itech-Attendance/Itech-Attendance.Tests --no-build --verbosity normal
