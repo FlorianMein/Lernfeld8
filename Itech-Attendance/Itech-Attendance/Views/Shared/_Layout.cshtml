@@ -21,23 +21,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Table">
                                 <i class="fas fa-bars"></i>
                                 Table
                             </a>
                         </li>
                         @{
-                            if (ViewBag.isLoggedIn == false)
+                            if (ViewBag.isLoggedIn == true)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">
                                         <i class="fas fa-bars"></i>
-                                        Login
+                                        Logout
                                     </a>
                                 </li>
                             }

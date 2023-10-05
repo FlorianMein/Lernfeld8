@@ -29,30 +29,54 @@ namespace Itech_Attendance.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.User.Claims.Any()) // eingeloggt
-            {
-                SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
+            SetLoginViewbag();
 
-                if (schoolDay == null)
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Index(ClassName className)
+        {
+            SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Today) && x.ClassName == className);
+            long newQrCodeId = DateTime.Now.Ticks;
+            
+            if (schoolDay == null)
+            {
+                _attendanceRepository.Create(new SchoolDay()
                 {
-                    schoolDay = new SchoolDay()
-                    {
-                        QrCode = String.Empty,
-                        Date = DateOnly.FromDateTime(DateTime.Now),
-                        AttendingStudents = new List<Student>()
-                    };
-
-                    _attendanceRepository.Create(schoolDay);
-                }
-
-                return View(schoolDay);
+                    Date = DateOnly.FromDateTime(DateTime.Today),
+                    ClassName = className,
+                    AttendingStudents = new List<Student>(),
+                    QrCode = GenerateQrCodeByString($"https://localhost:7219/{newQrCodeId}"),
+                    QrCodeId = newQrCodeId,
+                });
             }
-            else // nicht eingeloggt oder Single-Sign-On Versuch
+            else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("SchoolDayQR", new { id = schoolDay.QrCodeId });
             }
+            
+
+            return RedirectToAction("SchoolDayQR", new { id = newQrCodeId });
+        }
+
+        [Authorize]
+        [Route("SchoolDayQR/{id}")]
+        public IActionResult SchoolDayQR(long id)
+        {
+            SetLoginViewbag();
+            SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.QrCodeId == id);
+
+            if(schoolDay == null)
+            {
+                throw new Exception("Fehler");
+            }
+
+            return View(schoolDay);
         }
 
         [HttpPost]
@@ -79,7 +103,18 @@ namespace Itech_Attendance.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
+            SetLoginViewbag();
+
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            Response.Cookies.Delete(CookieAuthenticationDefaults.AuthenticationScheme);
+            SetLoginViewbag();
+
+            return View("Login");
         }
 
         [HttpPost]
@@ -88,21 +123,23 @@ namespace Itech_Attendance.Controllers
             return View();
         }
 
-        public IActionResult GenerateNewQR()
+        public IActionResult GenerateNewQR(ClassName className)
         {
             SchoolDay? schoolDay =
-                _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now));
+                _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Now) && x.ClassName == className);
 
             if (schoolDay == null)
             {
-                throw new Exception("couldnt find object in repo");
+                throw new Exception("Fehler");
             }
 
             long newId = DateTime.Now.Ticks;
             schoolDay.QrCode = GenerateQrCodeByString($"https://localhost:7219/{newId}");
             schoolDay.QrCodeId = newId;
+
             _attendanceRepository.Update(schoolDay);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("SchoolDayQR", new { id = newId });
         }
 
         [HttpGet]
@@ -142,16 +179,15 @@ namespace Itech_Attendance.Controllers
         [HttpGet]
         public IActionResult Table()
         {
+            SetLoginViewbag();
+
             return View(_attendanceRepository.FindAll());
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new SchoolDay()
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now),
-            });
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,17 +1,28 @@
-﻿@{
+﻿@using Itech_Attendance.Core.Models;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-@model SchoolDay
 
 <div class="text-center">
-    <form method="post" asp-action="GenerateNewQR">
+    <form method="post">
         <br />
         <br />
+        <h4>Neue Anwesenheit</h4>
         <br />
-        <h4>@Model.Date</h4>
-        <img src="@Model.QrCode" alt="QR Code" style="width: 300px; height: 300px;" />
+        <label>
+            Klasse:
+            <select name="className">
+                @foreach (ClassName className in Enum.GetValues(typeof(ClassName)))
+                {
+                    <option>
+                        @className
+                    </option>
+                }
+            </select>
+        </label>
         <br />
-        <button>Neuer QR-Code</button>
+        <br />
+        <button class="qrCodeButton">Anwesenheit starten</button>
     </form>
 </div>

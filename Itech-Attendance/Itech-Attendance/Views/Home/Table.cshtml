@@ -9,51 +9,66 @@
 
 @{
     <style>
-    table {
-        width: 60%;
-        height: 60%;
-        border-collapse: collapse;
-    }
+        table {
+            width: 60%;
+            height: 60%;
+            border-collapse: collapse;
+        }
 
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-    }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
 
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
 
-    li {
-        color: black;
-    }
-</style>
+        li {
+            color: black;
+        }
+    </style>
 
+    <br />
+    <br />
+    <div class="text-center">
+        <h4>Klasse auswählen</h4>
+        <select name="className">
+            @foreach (ClassName className in Enum.GetValues(typeof(ClassName)))
+            {
+                <option>
+                    @className
+                </option>
+            }
+        </select>
+    </div>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Date</th>
-            <th>Attending Students</th>
-        </tr>
+            <tr>
+                <th>Class</th>
+                <th>Date</th>
+                <th>Attending Students</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (SchoolDay schoolDay in Model)
-        {
-            <tr>
-                <td>@schoolDay.Date</td>
-                <td>
-                    <ul>
-                        @foreach (Student student in schoolDay.AttendingStudents)
-                        {
-                            <li>@student.Name</li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        }
+            @foreach (SchoolDay schoolDay in Model)
+            {
+                <tr>
+                    <td>@schoolDay.ClassName</td>
+                    <td>@schoolDay.Date</td>
+                    <td>
+                        <ul>
+                            @foreach (Student student in schoolDay.AttendingStudents)
+                            {
+                                <li>@student.Name</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 

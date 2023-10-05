@@ -67,13 +67,13 @@ var attRepo = app.Services.GetService<IAttendanceRepository>();
 //    QrCode = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t"
 //});
 
-//teacherRepo.Create(new Itech_Attendance.Core.Models.Teacher()
-//{
-//    FirstName = "Selim",
-//    LastName = "Asik",
-//    UserName = "selim",
-//    Password = "1234"
-//});
+teacherRepo.Create(new Itech_Attendance.Core.Models.Teacher()
+{
+    FirstName = "Selim",
+    LastName = "Asik",
+    UserName = "selim",
+    Password = "1234"
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

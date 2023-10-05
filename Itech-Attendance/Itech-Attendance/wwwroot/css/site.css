@@ -1,11 +1,11 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
@@ -16,6 +16,7 @@ html {
 body {
     margin-bottom: 60px;
 }
+
 .btn {
     display: inline-block;
     background: transparent;
@@ -26,85 +27,96 @@ body {
     padding: 0;
     transition: all 200ms ease-in;
     cursor: pointer;
+    &--primary
 
-    &--primary {
-        background: $button-bg-color;
-        color: $button-text-color;
-        box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
-        border-radius: 2px;
-        padding: 12px 36px;
+{
+    background: $button-bg-color;
+    color: $button-text-color;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+    border-radius: 2px;
+    padding: 12px 36px;
+    &:hover
 
-        &:hover {
-            background: darken($button-bg-color, 4%);
-        }
+{
+    background: darken($button-bg-color, 4%);
+}
 
-        &:active {
-            background: $button-bg-color;
-            box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
-        }
-    }
+&:active {
+    background: $button-bg-color;
+    box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
+}
 
-    &--inside {
-        margin-left: -96px;
-    }
+}
+
+&--inside {
+    margin-left: -96px;
+}
+
 }
 
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=greek-ext');
 
-body{
+body {
     background-image: url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80");
     background-position: center;
     background-origin: content-box;
     background-repeat: no-repeat;
     background-size: cover;
-    min-height:100vh;
+    min-height: 100vh;
     font-family: 'Noto Sans', sans-serif;
 }
-.text-center{
-    color:#fff;
-    text-transform:uppercase;
+
+.text-center {
+    color: #fff;
+    text-transform: uppercase;
     font-size: 23px;
     margin: -50px 0 80px 0;
     display: block;
     text-align: center;
 }
-.box{
-    position:absolute;
-    left:50%;
-    top:50%;
+
+.box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     transform: translate(-50%,-50%);
     background-color: rgba(0, 0, 0, 0.7);
-    border-radius:3px;
-    padding:70px 100px;
+    border-radius: 3px;
+    padding: 70px 100px;
 }
-.input-container{
-    position:relative;
-    margin-bottom:25px;
+
+.input-container {
+    position: relative;
+    margin-bottom: 25px;
     border-radius: 10px;
 }
-.input-container label{
-    position:absolute;
-    top:0px;
-    left:0px;
-    font-size:16px;
-    color:#fff;
-    pointer-event:none;
-    transition: all 0.5s ease-in-out;
-}
-.input-container input{
-    border:0;
-    border-bottom:1px solid #9f9f9f;
-    background:transparent;
-    width:100%;
-    padding:8px 0 5px 0;
-    font-size:16px;
-    color:#fff;
-}
-.input-container input:focus{
-    border:none;
-    outline:none;
-    border-bottom:1px solid #e7695c;
-}
+
+    .input-container label {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        font-size: 16px;
+        color: #fff;
+        pointer-event: none;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .input-container input {
+        border: 0;
+        border-bottom: 1px solid #9f9f9f;
+        background: transparent;
+        width: 100%;
+        padding: 8px 0 5px 0;
+        font-size: 16px;
+        color: #fff;
+    }
+
+        .input-container input:focus {
+            border: none;
+            outline: none;
+            border-bottom: 1px solid #e7695c;
+        }
+
 .anmeldung-btn {
     color: #fff;
     background-color: #e7695c;
@@ -118,39 +130,61 @@ body{
     position: relative;
     transition: color 0.5s ease, background-color 0.5s ease;
 }
-.anmeldung-btn:hover{
-    color: #e7695c;
-    background-color: #fff;
-    outline: none;
-    border: 0;
-    padding: 10px 20px;
-    text-transform: uppercase;
-    margin-top: 50px;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-}
-.input-container input:focus ~ label,
-.input-container input:valid ~ label{
-    top:-12px;
-    font-size:12px;
 
+    .anmeldung-btn:hover {
+        color: #e7695c;
+        background-color: #fff;
+        outline: none;
+        border: 0;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        margin-top: 50px;
+        border-radius: 10px;
+        cursor: pointer;
+        position: relative;
+    }
+
+.input-container input:focus ~ label,
+.input-container input:valid ~ label {
+    top: -12px;
+    font-size: 12px;
 }
-#main{
+
+#main {
     font-family: Verdana;
 }
+
 .nav-item a {
     /* Add your other styles here */
     font-size: 16px; /* Initial font size */
     transition: font-size 0.3s ease; /* Specify the property to animate and the timing function */
 }
 
-.nav-item a:hover {
-    font-size: 24px; /* New font size on hover */
-}
+    .nav-item a:hover {
+        font-size: 24px; /* New font size on hover */
+    }
 
 .navbar {
     height: 5vh;
     position: fixed;
     width: 100%;
 }
+
+select {
+    border-radius: 5px;
+    width: 100px;
+    text-align: center;
+}
+
+    select:hover {
+        opacity: 0.9;
+        cursor: pointer;
+    }
+
+.qrCodeButton {
+    border-radius: 5px;
+}
+
+    .qrCodeButton:hover {
+        opacity: 0.9;
+    }
