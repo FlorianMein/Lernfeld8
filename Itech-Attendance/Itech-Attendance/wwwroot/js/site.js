@@ -29,17 +29,25 @@ var x = setInterval(function () {
         clearInterval(x);
         document.getElementById("demo").innerHTML = "EXPIRED";
 
-
         var classNameValue = document.getElementById("classNameInput").value;
         console.log(classNameValue);
+        var formdata = new FormData();
+
+        formdata.append("className", classNameValue);
 
         fetch("/Home/GenerateNewQR",
             {
                 method: "POST",
-                body: JSON.stringify({
-                    className: classNameValue
-                })
+                body: formdata
             })
-            .then(function (res) { console.log(classNameValue) })
+            .then(function (res) {
+                if (res.redirected) {
+                    // The response indicates a redirect
+                    window.location.href = res.url; // Redirect to the new URL
+                } else {
+                    // Handle the response as needed
+                    console.log(classNameValue);
+                }
+            })
     }
 }, 1000);

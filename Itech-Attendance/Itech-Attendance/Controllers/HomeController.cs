@@ -123,6 +123,7 @@ namespace Itech_Attendance.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult GenerateNewQR(ClassName className)
         {
             SchoolDay? schoolDay =
