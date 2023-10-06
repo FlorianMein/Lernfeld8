@@ -61,6 +61,7 @@
                     <td>@schoolDay.Date</td>
                     <td>
                         <ul>
+                            Total students: @schoolDay.AttendingStudents.Count
                             @foreach (Student student in schoolDay.AttendingStudents)
                             {
                                 <li>@student.Name</li>

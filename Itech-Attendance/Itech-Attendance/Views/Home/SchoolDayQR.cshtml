@@ -8,12 +8,16 @@
 
 <div class="text-center">
     <form method="post" asp-action="GenerateNewQR">
+        <input type="text" name="className" value="@Model.ClassName" id="classNameInput" style="display: none;" />
         <br />
         <br />
+        <h2>Bitte den QR-Code einscannen zum einchecken</h2>
+        <h4>Klasse: @Model.ClassName</h4>
         <h4>@Model.Date</h4>
         <br />
         <br />
-        <img src="@Model.QrCode" alt="QR Code" style="width: 300px; height: 300px; display: @(string.IsNullOrEmpty(Model.QrCode) ? "none" : "")" />
+        <img src="@Model.QrCode" alt="QR Code" style="width: 300px; height: 300px; border-radius:10px; display: @(string.IsNullOrEmpty(Model.QrCode) ? "none" : "")" />
+        <p id="demo"></p>
         <br />
         <br />
         <button class="qrCodeButton">Neuer QR-Code</button>
