@@ -1,13 +1,11 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET on multiple Branches
+name: .NET
 
 on:
   push:
-    branches:
-      - main
-      - Postman
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -28,12 +26,3 @@ jobs:
       run: dotnet build Itech-Attendance/Itech-Attendance.Tests --no-restore
     - name: Test
       run: dotnet test Itech-Attendance/Itech-Attendance.Tests --no-build --verbosity normal
-
-    # Add a step to install Newman (Postman CLI)
-    - name: Install Newman
-      run: npm install -g newman
-
-    # Add a step to run Postman tests
-    - name: Run Postman Tests
-      run: |
-        newman run Lernfeld8/Itech-Attendance/Itech-Attendance.Tests/lernfeld8.postman_collection.json
