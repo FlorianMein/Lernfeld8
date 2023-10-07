@@ -34,4 +34,4 @@ jobs:
     # Add a step to run Postman tests
     - name: Run Postman Tests
       run: |
-        newman run Lernfeld8/Itech-Attendance/Itech-Attendance.Tests/lernfeld8.postman_collection.json
+        newman run Itech-Attendance/Itech-Attendance.Tests/*.json
