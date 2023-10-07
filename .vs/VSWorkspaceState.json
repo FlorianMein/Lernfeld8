@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\.github\\workflows",
+    "\\Itech-Attendance",
+    "\\Itech-Attendance\\Itech-Attendance.Tests"
   ],
   "PreviewInSolutionExplorer": false
 }
