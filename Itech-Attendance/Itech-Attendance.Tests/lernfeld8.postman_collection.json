@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "5989ab92-10fb-4425-b5ca-1de34140d6ab",
+		"name": "lernfeld8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30307620"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"// Parse the HTML response using cheerio\r",
+							"const $ = cheerio.load(responseBody);\r",
+							"\r",
+							"// Check if the <h4>Neue Anwesenheit</h4> element exists\r",
+							"const h4Element = $('h4:contains(\"Neue Anwesenheit\")');\r",
+							"\r",
+							"// Assert that the element exists\r",
+							"pm.test(\"Check if <h4>Neue Anwesenheit</h4> exists\", function () {\r",
+							"    pm.expect(h4Element.length).to.be.greaterThan(0); // If it exists, the length will be greater than 0\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "selim",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:7219/Home/Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7219",
+					"path": [
+						"Home",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anwesenheit starten",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"// Parse the HTML response using cheerio\r",
+							"const $ = cheerio.load(responseBody);\r",
+							"\r",
+							"// Check if the <h4>Neue Anwesenheit</h4> element exists\r",
+							"const h4Element = $('h4:contains(\"Klasse: IT2Y\")');\r",
+							"\r",
+							"// Assert that the element exists\r",
+							"pm.test(\"Check if <h4>Klasse: IT2Y</h4> exists\", function () {\r",
+							"    pm.expect(h4Element.length).to.be.greaterThan(0); // If it exists, the length will be greater than 0\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "className",
+							"value": "IT2Y",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:7219/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7219",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
