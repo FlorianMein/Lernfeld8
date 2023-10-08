@@ -1,4 +1,5 @@
-﻿using Itech_Attendance.Core.Models;
+﻿using Itech_Attendance.Core;
+using Itech_Attendance.Core.Models;
 using Itech_Attendance.Core.Repositories;
 using Itech_Attendance.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +10,7 @@ using QRCoder;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace Itech_Attendance.Controllers
@@ -39,8 +41,10 @@ namespace Itech_Attendance.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Index(ClassName className)
+        public IActionResult Index(ClassName className, string time)
         {
+            TimeOnly.TryParseExact(time, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly parsedTime);
+
             SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Today) && x.ClassName == className);
             long newQrCodeId = DateTime.Now.Ticks;
             
@@ -53,6 +57,7 @@ namespace Itech_Attendance.Controllers
                     AttendingStudents = new List<Student>(),
                     QrCode = GenerateQrCodeByString($"https://localhost:7219/{newQrCodeId}"),
                     QrCodeId = newQrCodeId,
+                    Time = parsedTime
                 });
             }
             else
@@ -108,6 +113,23 @@ namespace Itech_Attendance.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Registration(string username, string password, int pin)
+        {
+            if (!SecretPins.secretPins.Contains(pin))
+            {
+                throw new Exception("Wrong pin");
+            }
+
+            _teacherRepository.Create(new Teacher()
+            {
+                UserName = username,
+                Password = password,
+            });
+
+            return RedirectToAction("Login");
+        }
+
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -115,12 +137,6 @@ namespace Itech_Attendance.Controllers
             SetLoginViewbag();
 
             return View("Login");
-        }
-
-        [HttpPost]
-        public IActionResult Registration(string name)
-        {
-            return View();
         }
 
         [HttpPost]
@@ -149,6 +165,11 @@ namespace Itech_Attendance.Controllers
         {
             SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.QrCodeId == id);
 
+            if (schoolDay == null)
+            {
+                return RedirectToAction("AttendanceFailed");
+            }
+
             return View(schoolDay);
         }
 
@@ -160,11 +181,18 @@ namespace Itech_Attendance.Controllers
 
             if (schoolDay == null)
             {
-                throw new Exception("object not found");
+                return RedirectToAction("AttendanceFailed");
             }
 
-            schoolDay.AttendingStudents.Add(new Student { Name = name });
+            TimeOnly timeOfAttendance = TimeOnly.FromDateTime(DateTime.Now);
+            bool isStudentLate = false;
 
+            if(schoolDay.Time < timeOfAttendance || timeOfAttendance < schoolDay.Time.AddHours(-1))
+            {
+                isStudentLate = true;
+            }
+
+            schoolDay.AttendingStudents.Add(new Student { Name = name, TimeOfAttendance = timeOfAttendance, isLate = isStudentLate});
             _attendanceRepository.Update(schoolDay);
 
             return RedirectToAction("AttendanceSuccessful");
@@ -176,13 +204,27 @@ namespace Itech_Attendance.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult AttendanceFailed()
+        {
+            return View();
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult Table()
         {
             SetLoginViewbag();
 
-            return View(_attendanceRepository.FindAll());
+            return View();
+        }
+
+        [HttpGet]
+        [Route("Table/{className}")]
+        public IActionResult OnGetTablePartial(ClassName className)
+        {
+            List<SchoolDay> schoolDays = _attendanceRepository.FindAll().Where(x => x.ClassName == className).ToList();
+            return PartialView("_TablePartial", schoolDays);
         }
 
         [HttpGet]

@@ -10,5 +10,7 @@ namespace Itech_Attendance.Core.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public TimeOnly TimeOfAttendance { get; set; }
+        public bool isLate { get; set; }
     }
 }

@@ -51,3 +51,14 @@ var x = setInterval(function () {
             })
     }
 }, 1000);
+
+$(document).ready(function () {
+    $("#tablePartial").load("/Table/IT2X");
+
+    document.getElementById('selectOption').addEventListener('change', function () {
+        // Get the selected value from the select element
+        const selectedOption = this.value;
+        $("#tablePartial").load(`/Table/${selectedOption}`);
+    });
+});
+

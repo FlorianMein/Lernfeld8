@@ -7,70 +7,20 @@
 
 @model List<SchoolDay>
 
-@{
-    <style>
-        table {
-            width: 60%;
-            height: 60%;
-            border-collapse: collapse;
+<br />
+<br />
+<div class="text-center">
+    <h4>Klasse auswählen</h4>
+    <select name="className" id="selectOption">
+        @foreach (ClassName className in Enum.GetValues(typeof(ClassName)))
+        {
+            <option>
+                @className
+            </option>
         }
+    </select>
+</div>
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+<div id="tablePartial">
 
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
-            color: black;
-        }
-    </style>
-
-    <br />
-    <br />
-    <div class="text-center">
-        <h4>Klasse auswählen</h4>
-        <select name="className">
-            @foreach (ClassName className in Enum.GetValues(typeof(ClassName)))
-            {
-                <option>
-                    @className
-                </option>
-            }
-        </select>
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Class</th>
-                <th>Date</th>
-                <th>Attending Students</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (SchoolDay schoolDay in Model)
-            {
-                <tr>
-                    <td>@schoolDay.ClassName</td>
-                    <td>@schoolDay.Date</td>
-                    <td>
-                        <ul>
-                            Total students: @schoolDay.AttendingStudents.Count
-                            @foreach (Student student in schoolDay.AttendingStudents)
-                            {
-                                <li>@student.Name</li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-}
+</div>

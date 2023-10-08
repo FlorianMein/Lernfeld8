@@ -1,0 +1,62 @@
+﻿@using Itech_Attendance.Core.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<SchoolDay>
+
+@{
+    <style>
+        table {
+            width: 60%;
+            height: 60%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            color: black;
+        }
+    </style>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Date</th>
+                <th>Attending Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SchoolDay schoolDay in Model)
+            {
+                <tr>
+                    <td>@schoolDay.ClassName</td>
+                    <td>@schoolDay.Date - @schoolDay.Time Uhr</td>
+                    <td>
+                        <ul>
+                            Total students: @schoolDay.AttendingStudents.Count
+                            @foreach (Student student in schoolDay.AttendingStudents)
+                            {
+                                <li style="color: @(student.isLate ? "red" : "")">@student.Name: @student.TimeOfAttendance Uhr</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
