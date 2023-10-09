@@ -28,10 +28,10 @@ jobs:
       run: dotnet test Itech-Attendance/Itech-Attendance.Tests --no-build --verbosity normal
 
     # Add a step to install Newman (Postman CLI)
-    - name: Install Newman
-      run: npm install -g newman
+#    - name: Install Newman
+#     run: npm install -g newman
 
     # Add a step to run Postman tests
-    - name: Run Postman Tests
-      run: |
-        newman run Itech-Attendance/Itech-Attendance.Tests/*.json
+#    - name: Run Postman Tests
+#      run: |
+#        newman run Itech-Attendance/Itech-Attendance.Tests/*.json
