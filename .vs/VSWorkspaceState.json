@@ -4,7 +4,8 @@
     "\\.github",
     "\\.github\\workflows",
     "\\Itech-Attendance",
-    "\\Itech-Attendance\\Itech-Attendance.Tests"
+    "\\Itech-Attendance\\Itech-Attendance"
   ],
+  "SelectedNode": "\\.github\\workflows\\dotnet.yml",
   "PreviewInSolutionExplorer": false
 }
