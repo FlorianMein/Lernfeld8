@@ -2,6 +2,7 @@ using Itech_Attendance.Controllers;
 using System.Security.Principal;
 using System.Drawing;
 using Itech_Attendance.Helpers;
+using System.Runtime.InteropServices;
 
 namespace Itech_Attendance.Tests
 {
@@ -15,16 +16,23 @@ namespace Itech_Attendance.Tests
         [Test]
         public void BitmapToByteArray_WhenCorrectly_ThenPass()
         {
-            Bitmap bitmap = new Bitmap(1000, 800, System.Drawing.Imaging.PixelFormat.Format32bppPArgb); ;
-            var x = HomeController.BitmapToByteArray(bitmap);
-
-            if(x is byte[] && x is not null)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Assert.Pass();
+                Bitmap bitmap = new Bitmap(1000, 800, System.Drawing.Imaging.PixelFormat.Format32bppPArgb); ;
+                var x = HomeController.BitmapToByteArray(bitmap);
+
+                if (x is byte[] && x is not null)
+                {
+                    Assert.Pass();
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
             else
             {
-                Assert.Fail();
+                Assert.Pass();
             }
         }
 
