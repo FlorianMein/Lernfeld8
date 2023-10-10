@@ -28,8 +28,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
-var x = Guid.NewGuid();
 var teacherRepo = app.Services.GetService<ITeacherRepository>();
 var attRepo = app.Services.GetService<IAttendanceRepository>();
 
@@ -66,14 +64,6 @@ var attRepo = app.Services.GetService<IAttendanceRepository>();
 //    Date = new DateOnly(2023, 9, 26),
 //    QrCode = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t"
 //});
-
-teacherRepo.Create(new Itech_Attendance.Core.Models.Teacher()
-{
-    FirstName = "Selim",
-    LastName = "Asik",
-    UserName = "selim",
-    Password = "1234"
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

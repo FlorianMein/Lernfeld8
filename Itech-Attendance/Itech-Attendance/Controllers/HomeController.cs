@@ -1,6 +1,7 @@
 ﻿using Itech_Attendance.Core;
 using Itech_Attendance.Core.Models;
 using Itech_Attendance.Core.Repositories;
+using Itech_Attendance.Helpers;
 using Itech_Attendance.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -43,8 +44,6 @@ namespace Itech_Attendance.Controllers
         [HttpPost]
         public IActionResult Index(ClassName className, string time)
         {
-            TimeOnly.TryParseExact(time, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly parsedTime);
-
             SchoolDay? schoolDay = _attendanceRepository.FindAll().FirstOrDefault(x => x.Date == DateOnly.FromDateTime(DateTime.Today) && x.ClassName == className);
             long newQrCodeId = DateTime.Now.Ticks;
             
@@ -57,7 +56,7 @@ namespace Itech_Attendance.Controllers
                     AttendingStudents = new List<Student>(),
                     QrCode = GenerateQrCodeByString($"https://localhost:7219/{newQrCodeId}"),
                     QrCodeId = newQrCodeId,
-                    Time = parsedTime
+                    Time = time.ToTimeOnly(),
                 });
             }
             else
